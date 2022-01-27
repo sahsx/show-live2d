@@ -20,18 +20,12 @@ function injectJS() {
   document.body.appendChild(canvas);
 }
 
-async function useModel() {
-  const PIXI = require("pixi.js");
-  window.PIXI = PIXI;
+async function addModel(app, url) {
   const { Live2DModel } = require("pixi-live2d-display");
-  const app = new PIXI.Application({
-    view: document.getElementById("canvas"),
-    autoStart: true,
-    width: 300,
-    height: 600,
-    transparent: true,
-  });
-  const model = await Live2DModel.from("./l_103300401/model.json");
+  const modelUrl =
+    url ??
+    "https://cdn.jsdelivr.net/gh/sahsx/show-live2d/public/l_103300401/model.json";
+  const model = await Live2DModel.from(modelUrl);
   app.stage.addChild(model);
   model.x = 150;
   model.y = 300;
@@ -39,13 +33,25 @@ async function useModel() {
   model.skew.x = Math.PI;
   model.scale.set(0.1, 0.1);
   model.anchor.set(0.5, 0.5);
-
   // 交互
   model.on("hit", (hitAreas) => {
     if (hitAreas.includes("body")) {
       model.motion("tap_body");
     }
   });
+}
+
+async function useModel() {
+  const PIXI = require("pixi.js");
+  window.PIXI = PIXI;
+  const app = new PIXI.Application({
+    view: document.getElementById("canvas"),
+    autoStart: true,
+    width: 300,
+    height: 600,
+    transparent: true,
+  });
+  addModel(app);
 }
 
 async function main() {

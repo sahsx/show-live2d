@@ -4,7 +4,7 @@ module.exports = {
   entry: "./src/index.js",
   output: {
     path: path.resolve(__dirname, "dist"),
-    filename: "l2d-show.js",
+    filename: "show2-l2d.js",
   },
   resolve: {
     alias: {
